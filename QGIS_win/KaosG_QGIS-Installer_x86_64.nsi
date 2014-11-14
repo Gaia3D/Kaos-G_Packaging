@@ -34,6 +34,16 @@ RequestExecutionLevel admin
 ;----------------------------------------------------------------------------------------------------------------------------
 
 ;Set the installer variables, depending on the selected version to build
+!define QGIS_BASE "QGIS"
+!define VERSION_NUMBER "2.6.0"
+!define VERSION_NAME "Kaos-G"
+!define VERSION_INT "2060001"
+!define BINARY_REVISION "1"
+!define DISPLAYED_NAME "Kaos-G QGIS 2.6"
+!define LICENSE_FILE ".\Installer-Files\LICENSE.txt"
+!define ARCH "x86_64"
+!define PACKAGE_FOLDER ".\unpacked_x86_64"
+!define INSTALLER_NAME "${VERSION_NAME}_${QGIS_BASE}-${VERSION_NUMBER}-Setup-${ARCH}.exe"
 
 !define COMPLETE_NAME "${QGIS_BASE} ${VERSION_NUMBER} ${VERSION_NAME}"
 
