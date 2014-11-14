@@ -11,5 +11,6 @@ WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "fTools" "true
 WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "GdalTools" "true"
 WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "db_manager" "true"
 WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "processing" "true"
+WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "GeepsSpStats" "true"
 
 ###############################  reg2nsis end  #################################

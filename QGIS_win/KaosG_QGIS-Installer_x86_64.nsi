@@ -262,6 +262,7 @@ FunctionEnd
 !insertmacro MUI_LANGUAGE "French"
 !insertmacro MUI_LANGUAGE "Russian"
 !insertmacro MUI_LANGUAGE "Japanese"
+!insertmacro MUI_LANGUAGE "Korean"
 !insertmacro MUI_LANGUAGE "Italian"
 !insertmacro MUI_LANGUAGE "Polish"
 !insertmacro MUI_LANGUAGE "Spanish"
