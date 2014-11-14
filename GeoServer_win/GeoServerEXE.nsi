@@ -2,15 +2,16 @@
 
 ; Define your application name
 !define APPNAME "GeoServer"
-!define VERSION "2.7-SNAPSHOT"
+!define BANDERNAME "Kaos-G"
+!define VERSION "2.6"
 ;!define LONGVERSION "2.0.0.0"
-!define APPNAMEANDVERSION "${APPNAME} ${VERSION}"
+!define APPNAMEANDVERSION "${BANDERNAME} ${APPNAME} ${VERSION}"
 
 ; Main Install settings
 Name "${APPNAMEANDVERSION}"
 InstallDir "$PROGRAMFILES\${APPNAMEANDVERSION}"
 InstallDirRegKey HKLM "Software\${APPNAME}" ""
-OutFile "geoserver-${VERSION}.exe"
+OutFile "${BANDERNAME}_${APPNAME}-${VERSION}_Setup.exe"
 
 ;Compression options
 CRCCheck on
