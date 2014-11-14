@@ -1,0 +1,2 @@
+..\CertUtil\signcode -spc ..\CertUtil\gaia3d.spc -v ..\CertUtil\gaia3d.pvk -n "Kaos-G GeoServer" -i http://www.gaia3d.com -t http://timestamp.verisign.com/scripts/timestamp.dll Kaos-G_GeoServer-2.6_Setup.exe
+..\CertUtil\CHKTRUST.EXE Kaos-G_GeoServer-2.6_Setup.exe
