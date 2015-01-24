@@ -35,17 +35,18 @@ RequestExecutionLevel admin
 
 ;Set the installer variables, depending on the selected version to build
 !define QGIS_BASE "QGIS"
-!define VERSION_NUMBER "2.6.0"
+!define VERSION_NUMBER "2.6.1"
+!define KAOSG_VERSION_NUMBER "1.0"
 !define VERSION_NAME "Kaos-G"
-!define VERSION_INT "2060001"
+!define VERSION_INT "20601"
 !define BINARY_REVISION "1"
-!define DISPLAYED_NAME "Kaos-G QGIS 2.6"
+!define DISPLAYED_NAME "${VERSION_NAME} ${QGIS_BASE} v${KAOSG_VERSION_NUMBER}"
 !define LICENSE_FILE ".\Installer-Files\LICENSE.txt"
 !define ARCH "x86"
 !define PACKAGE_FOLDER ".\unpacked_x86"
-!define INSTALLER_NAME "${VERSION_NAME}_${QGIS_BASE}-${VERSION_NUMBER}-Setup-${ARCH}.exe"
+!define INSTALLER_NAME "${VERSION_NAME}_${KAOSG_VERSION_NUMBER}-Setup-${ARCH}.exe"
 
-!define COMPLETE_NAME "${QGIS_BASE} ${VERSION_NUMBER} ${VERSION_NAME}"
+!define COMPLETE_NAME "${DISPLAYED_NAME}"
 
 !addplugindir osgeo4w/untgz
 !addplugindir osgeo4w/nsis
@@ -54,9 +55,9 @@ RequestExecutionLevel admin
 
 ;Publisher variables
 
-!define PUBLISHER "QGIS Development Team"
-!define WEB_SITE "http://qgis.org"
-!define WIKI_PAGE "http://qgis.org/en/docs/"
+!define PUBLISHER "GEEPS Project team"
+!define WEB_SITE "http://www.gaia3d.com"
+!define WIKI_PAGE "http://geeps.krihs.re.kr/wiki"
 
 ;----------------------------------------------------------------------------------------------------------------------------
 
@@ -323,6 +324,9 @@ Section "QGIS" SecQGIS
 	SetOutPath "$INSTALL_DIR"
 	File .\Installer-Files\postinstall.bat
 	File .\Installer-Files\preremove.bat
+	File .\Installer-Files\OSGeo4W.bat
+	File .\Installer-Files\OSGeo4W.ico
+	File .\Installer-Files\INSTANT_CLIENT_README.txt
 	
 	;add QGIS files
 	SetOutPath "$INSTALL_DIR"
@@ -515,13 +519,14 @@ Section "Uninstall"
 	RMDir /r "$INSTDIR\icons"
 	RMDir /r "$INSTDIR\src"
 
-	;if empty, remove the install folder
-	RMDir "$INSTDIR"
-	
+	RMDir /r "$INSTDIR\contrib"
+	RMDir /r "$INSTDIR\man"
+	RMDir /r "$INSTDIR\manifest"
+
 	;remove the Desktop ShortCut
 	SetShellVarContext all
-	Delete "$DESKTOP\QGIS Desktop (${VERSION_NUMBER}).lnk"
-	Delete "$DESKTOP\QGIS Browser (${VERSION_NUMBER}).lnk"
+	Delete "$DESKTOP\Kaos-G QGIS v1.0.lnk"
+	#Delete "$DESKTOP\QGIS Browser (${VERSION_NUMBER}).lnk"
 	Delete "$DESKTOP\OSGeo4W.lnk"
 	
 	;remove the Programs Start ShortCut
@@ -531,6 +536,10 @@ Section "Uninstall"
 	;remove the Registry Entries
 	DeleteRegKey HKLM "Software\${QGIS_BASE}"
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${QGIS_BASE}"
+
+	;if empty, remove the install folder
+	RMDir "$INSTDIR"
+	
 SectionEnd
 
 ;----------------------------------------------------------------------------------------------------------------------------

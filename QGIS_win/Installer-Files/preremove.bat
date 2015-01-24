@@ -19,9 +19,6 @@ ren etc\preremove\qgis.bat qgis.bat.done>>preremove.log 2>&1
 echo Running preremove qt4-libs.bat...
 %COMSPEC% /c etc\preremove\qt4-libs.bat>>preremove.log 2>&1
 ren etc\preremove\qt4-libs.bat qt4-libs.bat.done>>preremove.log 2>&1
-echo Running preremove saga.bat...
-%COMSPEC% /c etc\preremove\saga.bat>>preremove.log 2>&1
-ren etc\preremove\saga.bat saga.bat.done>>preremove.log 2>&1
 echo Running preremove setup.bat...
 %COMSPEC% /c etc\preremove\setup.bat>>preremove.log 2>&1
 ren etc\preremove\setup.bat setup.bat.done>>preremove.log 2>&1
