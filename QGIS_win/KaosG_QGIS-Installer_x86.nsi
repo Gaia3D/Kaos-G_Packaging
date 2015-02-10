@@ -41,7 +41,7 @@ RequestExecutionLevel admin
 !define VERSION_INT "20601"
 !define BINARY_REVISION "1"
 !define DISPLAYED_NAME "${VERSION_NAME} ${QGIS_BASE} v${KAOSG_VERSION_NUMBER}"
-!define LICENSE_FILE ".\Installer-Files\LICENSE.txt"
+!define LICENSE_FILE ".\Installer-Files_x86\LICENSE.txt"
 !define ARCH "x86"
 !define PACKAGE_FOLDER ".\unpacked_x86"
 !define INSTALLER_NAME "${VERSION_NAME}_${KAOSG_VERSION_NUMBER}-Setup-${ARCH}.exe"
@@ -227,12 +227,12 @@ FunctionEnd
 ;Interface Settings
 
 !define MUI_ABORTWARNING
-!define MUI_ICON ".\Installer-Files\Install_QGIS.ico"
-!define MUI_UNICON ".\Installer-Files\Uninstall_QGIS.ico"
-!define MUI_HEADERIMAGE_BITMAP_NOSTETCH ".\Installer-Files\InstallHeaderImage.bmp"
-!define MUI_HEADERIMAGE_UNBITMAP_NOSTRETCH ".\Installer-Files\UnInstallHeaderImage.bmp"
-!define MUI_WELCOMEFINISHPAGE_BITMAP ".\Installer-Files\modern-wizard.bmp"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP ".\Installer-Files\modern-wizard.bmp"
+!define MUI_ICON ".\Installer-Files_x86\Install_QGIS.ico"
+!define MUI_UNICON ".\Installer-Files_x86\Uninstall_QGIS.ico"
+!define MUI_HEADERIMAGE_BITMAP_NOSTETCH ".\Installer-Files_x86\InstallHeaderImage.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP_NOSTRETCH ".\Installer-Files_x86\UnInstallHeaderImage.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP ".\Installer-Files_x86\modern-wizard.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP ".\Installer-Files_x86\modern-wizard.bmp"
 
 ;----------------------------------------------------------------------------------------------------------------------------
 
@@ -319,14 +319,14 @@ Section "QGIS" SecQGIS
 
 	;add Installer files
 	SetOutPath "$INSTALL_DIR\icons"
-	File .\Installer-Files\QGIS.ico
-	File .\Installer-Files\QGIS_Web.ico
+	File .\Installer-Files_x86\QGIS.ico
+	File .\Installer-Files_x86\QGIS_Web.ico
 	SetOutPath "$INSTALL_DIR"
-	File .\Installer-Files\postinstall.bat
-	File .\Installer-Files\preremove.bat
-	File .\Installer-Files\OSGeo4W.bat
-	File .\Installer-Files\OSGeo4W.ico
-	File .\Installer-Files\INSTANT_CLIENT_README.txt
+	File .\Installer-Files_x86\postinstall.bat
+	File .\Installer-Files_x86\preremove.bat
+	File .\Installer-Files_x86\OSGeo4W.bat
+	File .\Installer-Files_x86\OSGeo4W.ico
+	File .\Installer-Files_x86\INSTANT_CLIENT_README.txt
 	
 	;add QGIS files
 	SetOutPath "$INSTALL_DIR"

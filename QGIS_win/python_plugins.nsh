@@ -12,5 +12,6 @@ WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "GdalTools" "t
 WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "db_manager" "true"
 WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "processing" "true"
 WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "GeepsSpStats" "true"
+WriteRegStr HKEY_CURRENT_USER "Software\QGIS\QGIS2\PythonPlugins" "tmsforkorea" "true"
 
 ###############################  reg2nsis end  #################################
