@@ -3,7 +3,7 @@
 ; Define your application name
 !define APPNAME "GeoServer"
 !define BANDERNAME "Kaos-G"
-!define VERSION "2.6"
+!define VERSION "2.7.1.1"
 ;!define LONGVERSION "2.0.0.0"
 !define APPNAMEANDVERSION "${BANDERNAME} ${APPNAME} ${VERSION}"
 

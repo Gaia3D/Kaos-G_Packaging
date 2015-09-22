@@ -37,6 +37,9 @@ ren etc\postinstall\python-core.bat python-core.bat.done>>postinstall.log 2>&1
 echo Running postinstall qgis-common.bat...
 %COMSPEC% /c etc\postinstall\qgis-common.bat>>postinstall.log 2>&1
 ren etc\postinstall\qgis-common.bat qgis-common.bat.done>>postinstall.log 2>&1
+echo Running postinstall qgis-grass-plugin.bat...
+%COMSPEC% /c etc\postinstall\qgis-grass-plugin.bat>>postinstall.log 2>&1
+ren etc\postinstall\qgis-grass-plugin.bat qgis-grass-plugin.bat.done>>postinstall.log 2>&1
 echo Running postinstall qgis.bat...
 %COMSPEC% /c etc\postinstall\qgis.bat>>postinstall.log 2>&1
 ren etc\postinstall\qgis.bat qgis.bat.done>>postinstall.log 2>&1

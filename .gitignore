@@ -1,0 +1,5 @@
+*.old
+QGIS_win/unpacked_x86_old/
+QGIS_win/unpacked_x86_64_old/apps/qgis/python/plugins/processing/algs/saga/help/changedateformat.rst
+QGIS_win/unpacked_x86_64_old/apps/qgis/python/plugins/processing/algs/saga/help/cellbalance.rst
+QGIS_win/unpacked_x86_64_old/

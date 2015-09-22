@@ -13,6 +13,9 @@ ren etc\preremove\grass64.bat grass64.bat.done>>preremove.log 2>&1
 echo Running preremove pyqt4.bat...
 %COMSPEC% /c etc\preremove\pyqt4.bat>>preremove.log 2>&1
 ren etc\preremove\pyqt4.bat pyqt4.bat.done>>preremove.log 2>&1
+echo Running preremove qgis-grass-plugin.bat...
+%COMSPEC% /c etc\preremove\qgis-grass-plugin.bat>>preremove.log 2>&1
+ren etc\preremove\qgis-grass-plugin.bat qgis-grass-plugin.bat.done>>preremove.log 2>&1
 echo Running preremove qgis.bat...
 %COMSPEC% /c etc\preremove\qgis.bat>>preremove.log 2>&1
 ren etc\preremove\qgis.bat qgis.bat.done>>preremove.log 2>&1

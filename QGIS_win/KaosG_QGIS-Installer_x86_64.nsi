@@ -35,10 +35,10 @@ RequestExecutionLevel admin
 
 ;Set the installer variables, depending on the selected version to build
 !define QGIS_BASE "QGIS"
-!define VERSION_NUMBER "2.6.1"
-!define KAOSG_VERSION_NUMBER "1.0"
+!define VERSION_NUMBER "2.10.1"
+!define KAOSG_VERSION_NUMBER "2.0"
 !define VERSION_NAME "Kaos-G"
-!define VERSION_INT "20601"
+!define VERSION_INT "21001"
 !define BINARY_REVISION "1"
 !define DISPLAYED_NAME "${VERSION_NAME} ${QGIS_BASE} v${KAOSG_VERSION_NUMBER}"
 !define LICENSE_FILE ".\Installer-Files_x86_64\LICENSE.txt"
@@ -525,7 +525,7 @@ Section "Uninstall"
 
 	;remove the Desktop ShortCut
 	SetShellVarContext all
-	Delete "$DESKTOP\Kaos-G QGIS v1.0.lnk"
+	Delete "$DESKTOP\Kaos-G QGIS v2.0.lnk"
 	#Delete "$DESKTOP\QGIS Browser (${VERSION_NUMBER}).lnk"
 	Delete "$DESKTOP\OSGeo4W.lnk"
 	

@@ -1,3 +1,14 @@
+              KAOS-G QGIS (C) GEEPS Project Team
+
+    이 프로그램은 연구교육 공간정보기술 통합플랫폼 연구사업을 통해 개발되었습니다.
+    http://geeps.krihs.re.kr 
+
+    이 프로그램은 QGIS에 공간통계기능을 강화하고, 지오코딩, 한국지도제공 등의
+    부가기능이 추가되고, 좌표계문제, 한글문제 등을 수정한 것입니다.
+
+    이 프로그램의 라이센스는 QGIS와 동일한 GPL v2를 따릅니다.
+
+
               QGIS is Copyright (C) QGIS Development Team 
                    and the respective authors, 2004. 
 
