@@ -63,7 +63,7 @@ my $packages    = "packages" . ($arch eq "" ? "" : "-$arch");
 mkdir $packages, 0755 unless -d $packages;
 chdir $packages;
 
-system "wget $wgetopt -c http://nsis.sourceforge.net/mediawiki/images/9/9d/Untgz.zip" unless -f "Untgz.zip";
+system "wget $wgetopt -c http://qgis.org/downloads/Untgz.zip" unless -f "Untgz.zip";
 die "download of Untgz.zip failed" if $?;
 
 my %dep;
@@ -73,7 +73,7 @@ my %sdesc;
 my %md5;
 my $package;
 
-system "wget $wgetopt -O setup.ini -c $root$archpath/$ininame";
+system "wget $wgetopt -O setup.ini $root$archpath/$ininame";
 die "download of setup.ini failed" if $?;
 open F, "setup.ini" || die "setup.ini not found";
 while(<F>) {
@@ -102,12 +102,22 @@ close F;
 my %pkgs;
 
 sub getDeps {
-	my ($pkg) = @_;
+	my $pkg = shift;
 
-	return if exists $pkgs{$pkg};
+	my $deponly = $pkg =~ /-$/;
+	$pkg =~ s/-$//;
 
-	print " Including package $pkg\n" if $verbose;
-	$pkgs{$pkg} = 1;
+	unless($deponly) {
+		return if exists $pkgs{$pkg};
+		print " Including package $pkg\n" if $verbose;
+		$pkgs{$pkg} = 1;
+	} elsif( exists $pkgs{$pkg} ) {
+		print " Excluding package $pkg\n" if $verbose;
+		delete $pkgs{$pkg};
+		return;
+	} else {
+		print " Including dependencies of package $pkg\n" if $verbose;
+	}
 
 	foreach my $p ( @{ $dep{$pkg} } ) {
 		getDeps($p);
@@ -152,19 +162,19 @@ foreach my $p ( keys %pkgs ) {
 
 		print "Downloading $file [$f]...\n" if $verbose;
 		system "wget $wgetopt -c $f";
-		die "download of $f failed" if $?;
+		die "download of $f failed" if $? or ! -f $file;
 
 		if( exists $md5{$file} ) {
 			my $md5;
 			open F, "md5sum $file|";
 			while(<F>) {
-				if( /^(\S+)\s+$file$/ ) {
+				if( /^(\S+)\s+\*?$file$/ ) {
 					$md5 = $1;
 				}
 			}
 			close F;
 
-			die "No md5sum of $p determined" unless defined $md5;
+			die "No md5sum of $p determined [$file]" unless defined $md5;
 			if( $md5 eq $md5{$file} ) {
 				print "md5sum of $file verified.\n" if $verbose;
 			} else {
@@ -224,7 +234,7 @@ unless(-d $unpacked ) {
 		print O "$pn $p 0\n";
 
 		print "Unpacking $p...\n" if $verbose;
-		system "tar $taropt -C $unpacked -xjvf $p | gzip -c >$unpacked/etc/setup/$pn.lst.gz";
+		system "bash -c 'tar $taropt -C $unpacked -xjvf $p | gzip -c >$unpacked/etc/setup/$pn.lst.gz && [ \${PIPESTATUS[0]} == 0 -a \${PIPESTATUS[1]} == 0 ]'";
 		die "unpacking of $p failed" if $?;
 	}
 
@@ -255,64 +265,6 @@ unless(-d $unpacked ) {
 	chdir "..";
 }
 
-#
-# Create postinstall.bat
-#
-
-open F, ">../Installer-Files/postinstall.bat";
-
-print F "\@echo off\r\n";
-print F "del postinstall.log>>postinstall.log\r\n";
-print F "echo OSGEO4W_ROOT=%OSGEO4W_ROOT%>>postinstall.log 2>&1\r\n";
-print F "echo OSGEO4W_STARTMENU=%OSGEO4W_STARTMENU%>>postinstall.log 2>&1\r\n";
-print F "set OSGEO4W_ROOT_MSYS=%OSGEO4W_ROOT:\\=/%\r\n";
-print F "if \"%OSGEO4W_ROOT_MSYS:~1,1%\"==\":\" set OSGEO4W_ROOT_MSYS=/%OSGEO4W_ROOT_MSYS:~0,1%/%OSGEO4W_ROOT_MSYS:~3%\r\n";
-print F "echo OSGEO4W_ROOT_MSYS=%OSGEO4W_ROOT_MSYS%>>postinstall.log 2>&1\r\n";
-print F "PATH %OSGEO4W_ROOT%\\bin;%PATH%>>postinstall.log 2>&1\r\n";
-print F "cd %OSGEO4W_ROOT%>>postinstall.log 2>&1\r\n";
-
-chdir $unpacked;
-for my $p (<etc/postinstall/*.bat>) {
-	$p =~ s/\//\\/g;
-	my($dir,$file) = $p =~ /^(.+)\\([^\\]+)$/;
-
-	print F "echo Running postinstall $file...\r\n";
-	print F "%COMSPEC% /c $p>>postinstall.log 2>&1\r\n";
-	print F "ren $p $file.done>>postinstall.log 2>&1\r\n";
-}
-chdir "..";
-
-print F "ren postinstall.bat postinstall.bat.done\r\n";
-
-close F;
-
-open F, ">../Installer-Files/preremove.bat";
-
-print F "\@echo off\r\n";
-print F "del preremove.log>>preremove.log\r\n";
-print F "echo OSGEO4W_ROOT=%OSGEO4W_ROOT%>>preremove.log 2>&1\r\n";
-print F "echo OSGEO4W_STARTMENU=%OSGEO4W_STARTMENU%>>preremove.log 2>&1\r\n";
-print F "set OSGEO4W_ROOT_MSYS=%OSGEO4W_ROOT:\\=/%\r\n";
-print F "if \"%OSGEO4W_ROOT_MSYS:~1,1%\"==\":\" set OSGEO4W_ROOT_MSYS=/%OSGEO4W_ROOT_MSYS:~0,1%/%OSGEO4W_ROOT_MSYS:~3%\r\n";
-print F "echo OSGEO4W_ROOT_MSYS=%OSGEO4W_ROOT_MSYS%>>preremove.log 2>&1\r\n";
-print F "PATH %OSGEO4W_ROOT%\\bin;%PATH%>>preremove.log 2>&1\r\n";
-print F "cd %OSGEO4W_ROOT%>>preremove.log 2>&1\r\n";
-
-chdir $unpacked;
-for my $p (<etc/preremove/*.bat>) {
-	$p =~ s/\//\\/g;
-	my($dir,$file) = $p =~ /^(.+)\\([^\\]+)$/;
-
-	print F "echo Running preremove $file...\r\n";
-	print F "%COMSPEC% /c $p>>preremove.log 2>&1\r\n";
-	print F "ren $p $file.done>>preremove.log 2>&1\r\n";
-}
-chdir "..";
-
-print F "ren preremove.bat preremove.bat.done\r\n";
-
-close F;
-
 my($major, $minor, $patch);
 
 open F, "../../CMakeLists.txt";
@@ -330,6 +282,78 @@ while(<F>) {
 close F;
 
 $version = "$major.$minor.$patch" unless defined $version;
+
+#
+# Create postinstall.bat
+#
+
+open F, ">../Installer-Files/postinstall.bat";
+
+my $r = ">>postinstall.log 2>&1\r\n";
+
+print F "\@echo off\r\n";
+print F "del postinstall.log\r\n";
+print F "set OSGEO4W_ROOT_MSYS=%OSGEO4W_ROOT:\\=/%$r";
+print F "if \"%OSGEO4W_ROOT_MSYS:~1,1%\"==\":\" set OSGEO4W_ROOT_MSYS=/%OSGEO4W_ROOT_MSYS:~0,1%/%OSGEO4W_ROOT_MSYS:~3%$r";
+
+print F "del preremove-conf.bat$r";
+my $c = ">>preremove-conf.bat\r\n";
+print F "echo set OSGEO4W_ROOT=%OSGEO4W_ROOT%$c";
+print F "echo set OSGEO4W_ROOT_MSYS=%OSGEO4W_ROOT_MSYS%$c";
+print F "echo set OSGEO4W_STARTMENU=%OSGEO4W_STARTMENU%$c";
+print F "echo set OSGEO4W_DESKTOP=%OSGEO4W_DESKTOP%$c";
+
+print F "echo OSGEO4W_ROOT=%OSGEO4W_ROOT%$r";
+print F "echo OSGEO4W_ROOT_MSYS=%OSGEO4W_ROOT_MSYS%$r";
+print F "echo OSGEO4W_STARTMENU=%OSGEO4W_STARTMENU%$r";
+print F "echo OSGEO4W_DESKTOP=%OSGEO4W_DESKTOP%$r";
+print F "PATH %OSGEO4W_ROOT%\\bin;%PATH%$r";
+print F "cd %OSGEO4W_ROOT%$r";
+
+chdir $unpacked;
+for my $p (<etc/postinstall/*.bat>) {
+	$p =~ s/\//\\/g;
+	my($dir,$file) = $p =~ /^(.+)\\([^\\]+)$/;
+
+	print F "echo Running postinstall $file...$r";
+	print F "%COMSPEC% /c $p$r";
+	print F "ren $p $file.done$r";
+}
+chdir "..";
+
+print F "ren postinstall.bat postinstall.bat.done$r";
+
+close F;
+
+open F, ">../Installer-Files/preremove.bat";
+
+$r = ">>%TEMP%\\$packagename-OSGeo4W-$version-$binary-preremove.log 2>&1\r\n";
+
+print F "\@echo off\r\n";
+print F "call \"%~dp0\\preremove-conf.bat\"$r";
+print F "echo OSGEO4W_ROOT=%OSGEO4W_ROOT%$r";
+print F "echo OSGEO4W_STARTMENU=%OSGEO4W_STARTMENU%$r";
+print F "echo OSGEO4W_DESKTOP=%OSGEO4W_DESKTOP%$r";
+print F "set OSGEO4W_ROOT_MSYS=%OSGEO4W_ROOT:\\=/%$r";
+print F "if \"%OSGEO4W_ROOT_MSYS:~1,1%\"==\":\" set OSGEO4W_ROOT_MSYS=/%OSGEO4W_ROOT_MSYS:~0,1%/%OSGEO4W_ROOT_MSYS:~3%$r";
+print F "echo OSGEO4W_ROOT_MSYS=%OSGEO4W_ROOT_MSYS%$r";
+print F "PATH %OSGEO4W_ROOT%\\bin;%PATH%$r";
+print F "cd %OSGEO4W_ROOT%$r";
+
+chdir $unpacked;
+for my $p (<etc/preremove/*.bat>) {
+	$p =~ s/\//\\/g;
+	my($dir,$file) = $p =~ /^(.+)\\([^\\]+)$/;
+
+	print F "echo Running preremove $file...$r";
+	print F "%COMSPEC% /c $p$r";
+	print F "ren $p $file.done$r";
+}
+chdir "..";
+
+print F "ren preremove.bat preremove.bat.done$r";
+
+close F;
 
 unless( defined $binary ) {
 	if( -f "binary$archpostfix-$version" ) {
@@ -461,4 +485,5 @@ creatensis.pl [options] [packages...]
   If no packages are given 'qgis-full' and it's dependencies will be retrieved
   and packaged.
 
+  Packages with a appended '-' are excluded, but their dependencies are included.
 =cut
